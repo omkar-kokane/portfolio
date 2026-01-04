@@ -1,26 +1,185 @@
 @import "tailwindcss";
 
+/* ============================================================
+   GEN Z BRUTALISM THEME
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Gen Z / Neo-Brutalism Palette */
+  --color-bg-primary: #111111;
+  /* Deep Charcoal, not pitch black */
+  --color-bg-secondary: #0a0a0a;
+  /* Slightly darker for contrast */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a3a3a3;
+
+  /* Vibrant Accents */
+  --color-acid-green: #ccff00;
+  /* Signature Acid Green */
+  --color-electric-purple: #b0fb5d;
+  /* Actually using a neon lime variant for pop */
+  --color-hot-pink: #ff00ff;
+  --color-neon-orange: #ff4d00;
+
+  /* Fonts */
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  /* UI Elements */
+  --border-color: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.03);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--color-bg-primary);
+  --color-foreground: var(--color-text-primary);
+  --color-acid: var(--color-acid-green);
+  --color-neon: var(--color-neon-orange);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ============================================================
+   BASE STYLES & SCROLL SNAP
+   ============================================================ */
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  /* cursor: none;  <-- We will implement a custom cursor */
+}
+
+/* Hide default scrollbar but keep functionality */
+html {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  /* Enable vertical scroll snapping */
+}
+
+html::-webkit-scrollbar {
+  display: none;
+  /* Chrome/Safari */
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   NOISE TEXTURE OVERLAY
+   ============================================================ */
+
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: var(--color-acid-green);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, background-color 0.3s;
+}
+
+.custom-cursor.hovered {
+  width: 50px;
+  height: 50px;
+  background-color: var(--color-text-primary);
+  opacity: 0.5;
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+
+/* Frame-by-frame Section */
+.snap-section {
+  height: 100vh;
+  width: 100vw;
+  scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
+  /* Prevent content spill */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Text Selection */
+::selection {
+  background: var(--color-acid-green);
+  color: black;
+}
+
+/* Glitch Effect Animation (Simple) */
+@keyframes glitch {
+  0% {
+    transform: translate(0)
+  }
+
+  20% {
+    transform: translate(-2px, 2px)
+  }
+
+  40% {
+    transform: translate(-2px, -2px)
+  }
+
+  60% {
+    transform: translate(2px, 2px)
+  }
+
+  80% {
+    transform: translate(2px, -2px)
+  }
+
+  100% {
+    transform: translate(0)
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.hover-glitch:hover {
+  animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+  color: var(--color-acid-green);
+}
+
+/* Magnetic Button Base */
+.magnetic-btn {
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
